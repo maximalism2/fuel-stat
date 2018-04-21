@@ -28,7 +28,9 @@
     "prettier": "1.12.1"
   },
   "dependencies": {
+    "classnames": "^2.2.5",
     "firebase": "^4.13.1",
+    "moment": "^2.22.1",
     "preact": "^8.2.7",
     "preact-compat": "^3.18.0",
     "preact-router": "^2.6.0"

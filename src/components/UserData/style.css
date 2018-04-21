@@ -1,0 +1,48 @@
+.userData {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  transition: transform .4s;
+}
+
+.userData_navOpen {
+  transform: translate3d(-45px, 80px, 0);
+}
+
+.userData__profilePicture {
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  border: 1px solid #ddd;
+  overflow: hidden;
+  background: rgba(0, 0, 0, .2);
+}
+
+.userData__textWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-flow: column;
+  margin-left: 10px;
+  opacity: 1;
+  transform: none;
+  transition: opacity .4s .3s, transform 0s;
+}
+
+.userData__textWrapper_hidden {
+  opacity: 0;
+  transform: rotateX(90deg);
+  transition: opacity .4s, transform 0s .7s;;
+}
+
+.userData__displayName {
+  color: #f7f7f7;
+  font-weight: 700;
+  margin: 0 0 2px;
+}
+
+.userData__createdAt {
+  color: #ddd;
+  font-size: .9em;
+  margin: 0;
+}
