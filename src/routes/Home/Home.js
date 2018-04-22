@@ -10,13 +10,6 @@ export default props => {
     <section class={style.home}>
       <AddRecordButton />
       <h1>Home</h1>
-      <img src={gasPumpIcon} />
-      <img src={gasPumpIcon} />
-      <img src={gasPumpIcon} />
-      <img src={gasPumpIcon} />
-      <img src={gasPumpIcon} />
-      <img src={gasPumpIcon} />
-      <img src={gasPumpIcon} />
     </section>
   );
 };

@@ -32,6 +32,7 @@
     "firebase": "^4.13.1",
     "moment": "^2.22.1",
     "preact": "^8.2.7",
+    "preact-async-route": "^2.1.1",
     "preact-compat": "^3.18.0",
     "preact-router": "^2.6.0"
   }

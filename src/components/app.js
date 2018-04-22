@@ -9,6 +9,7 @@ import {
 
 import Layout from "./Layout/Layout";
 import Home from "../routes/Home/Home";
+import New from "../routes/New/New.async";
 import { CurrentUserType } from "../lib/types/CurrentUser";
 
 export default class App extends Component {
@@ -121,7 +122,7 @@ export default class App extends Component {
       >
         <Router onChange={this.handleRoute}>
           <Home path="/" />
-          <Home path="/new" />
+          <New path="/new" />
           <Home path="/settings" />
         </Router>
       </Layout>
