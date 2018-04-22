@@ -1,4 +1,5 @@
-import firebase, { auth, googleAuthProvider } from "./firebase";
+// @flow
+import firebase, { auth, database, googleAuthProvider } from "./firebase";
 
 export const getCurrentUser = () =>
   new Promise(resolve =>
@@ -15,7 +16,7 @@ export const getRedirectResult = () =>
       .catch(error => reject(error))
   );
 
-export const login = isMobile =>
+export const login = (isMobile: boolean) =>
   new Promise(async (resolve, reject) => {
     let loginResult = null;
     await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
@@ -31,3 +32,21 @@ export const login = isMobile =>
       }
     }
   });
+
+export const getSnapshot = () =>
+  new Promise(async (resolve, reject) => {
+    try {
+      const snapshow = await database.ref().once("value");
+      resolve(snapshow);
+    } catch (e) {
+      reject(e);
+    }
+  });
+
+export const getRecordsRef = (uid: string): mixed => {
+  if (typeof uid !== "string" || uid.length === 0) {
+    throw new Error("uid must be a valid user id, but you passed " + uid);
+  }
+
+  return database.ref(`records/${uid}`);
+};

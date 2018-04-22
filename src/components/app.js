@@ -121,8 +121,8 @@ export default class App extends Component {
         loggedIn={state.signedIn}
       >
         <Router onChange={this.handleRoute}>
-          <Home path="/" />
-          <New path="/new" />
+          <Home path="/" userData={this.currentUser} />
+          <New path="/new" userData={this.currentUser} />
           <Home path="/settings" />
         </Router>
       </Layout>
