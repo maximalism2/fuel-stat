@@ -10,6 +10,7 @@
 }
 
 .userData__profilePicture {
+  flex: 1 0 40px;
   width: 40px;
   height: 40px;
   border-radius: 20px;
@@ -20,6 +21,7 @@
 
 .userData__textWrapper {
   display: flex;
+  flex: 1 0 70vw;
   justify-content: center;
   align-items: flex-start;
   flex-flow: column;

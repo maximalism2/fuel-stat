@@ -8,7 +8,7 @@ import {
 } from "../lib/firebase.helpers";
 
 import Layout from "./Layout/Layout";
-import Home from "../routes/home";
+import Home from "../routes/Home/Home";
 import { CurrentUserType } from "../lib/types/CurrentUser";
 
 export default class App extends Component {
