@@ -83,20 +83,8 @@ export default class App extends Component {
    *	@param {string} event.url	The newly routed URL
    */
   handleRoute = e => {
-    console.log(e);
     this.currentUrl = e.url;
   };
-
-  renderRoute(anything) {
-    console.log(anything);
-    return null;
-    /*
-
-    <Home path="/" />
-          <Home path="/new" />
-          <Home path="/settings" />
-    */
-  }
 
   render(props, state) {
     if (state.authChecking) {
@@ -131,7 +119,11 @@ export default class App extends Component {
         loading={state.authChecking || state.signInLoading}
         loggedIn={state.signedIn}
       >
-        <Router onChange={this.handleRoute}>{this.renderRoutes}</Router>
+        <Router onChange={this.handleRoute}>
+          <Home path="/" />
+          <Home path="/new" />
+          <Home path="/settings" />
+        </Router>
       </Layout>
     );
   }

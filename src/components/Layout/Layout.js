@@ -8,12 +8,13 @@ import style from "./style";
 
 import type { CurrentUserType } from "../../lib/types/CurrentUser";
 
-type LayoutProps = {
+type LayoutProps = {|
   loading: boolean,
   loggedIn: boolean,
   currentUrl: string,
-  userData: CurrentUserType
-};
+  userData: CurrentUserType,
+  children: mixed[]
+|};
 
 type LayoutState = {
   navOpen: boolean
@@ -55,7 +56,7 @@ export default class Layout extends Component {
           navOpen={state.navOpen}
           onNavToggle={this.toggle}
         />
-        <section className={layoutContentCN}>{props.childrent}</section>
+        <section className={layoutContentCN}>{props.children}</section>
       </main>
     );
   }

@@ -38,7 +38,7 @@ export default class Header extends Component {
     return <span class={burgerCN} />;
   }
 
-  renderLinks(links) {
+  renderLinks(links: NavLinkType[], toggleNav: () => void) {
     return links.map(link => (
       <Link
         activeClassName={style.header__navLink_active}
@@ -47,6 +47,7 @@ export default class Header extends Component {
           (link.dimmed === true ? ` ${style.header__navLink_dimmed}` : "")
         }
         href={link.href}
+        onClick={toggleNav}
       >
         {link.title}
       </Link>
@@ -81,10 +82,7 @@ export default class Header extends Component {
           />
         </div>
         <nav class={style.header__nav}>
-          {/* {this.renderLinks(this.links)} */}
-          <Link activeClassName="active_link" href="/new">
-            New
-          </Link>
+          {this.renderLinks(this.links, props.onNavToggle)}
         </nav>
       </header>
     );
