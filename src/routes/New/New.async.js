@@ -1,5 +1,5 @@
 // @flow
-import { h } from "preact";
+import React from "react";
 import AsyncRoute from "preact-async-route";
 
 import LoadingComponent from "../../components/LoadingComponent/LoadingComponent";

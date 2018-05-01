@@ -1,5 +1,5 @@
 // @flow
-import { h, Component } from "preact";
+import React, { Component } from "react";
 
 import NewRecordForm from "../../components/NewRecordForm/NewRecordForm";
 import { getSnapshot, getRecordsRef } from "../../lib/firebase.helpers";

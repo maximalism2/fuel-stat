@@ -1,5 +1,5 @@
 // @flow
-import { h, Component } from "preact";
+import React, { Component } from "react";
 import { Link } from "preact-router/match";
 import classnames from "classnames";
 import UserData from "../UserData/UserData";
@@ -21,13 +21,26 @@ type NavLinkType = {
   dimmed?: boolean
 };
 
-export default class Header extends Component {
+export default class Header extends Component<HeaderProps> {
   links: NavLinkType[] = [
     { title: "Home", href: "/" },
     { title: "Add record", href: "/new" },
     { title: "Settings", href: "/settings" },
     { title: "Logout", href: "/logout", dimmed: true }
   ];
+
+  getUserDataProps(userData?: CurrentUserType): mixed {
+    if (!userData) {
+      return {};
+    }
+
+    return {
+      id: userData.uid,
+      displayName: userData.displayName,
+      photoUrl: userData.photoURL,
+      createdAt: userData.createdAt
+    };
+  }
 
   renderBurgerButton(navOpen: boolean) {
     const burgerCN = classnames({
@@ -38,8 +51,12 @@ export default class Header extends Component {
     return <span class={burgerCN} />;
   }
 
-  renderLinks(links: NavLinkType[], navOpen: boolean, toggleNav: () => void) {
-    return links.map((link, index) => (
+  renderLinks(
+    links: Array<NavLinkType>,
+    navOpen: boolean,
+    toggleNav: () => void
+  ): React$Element<*>[] {
+    return links.map((link: NavLinkType, index: number) => (
       <Link
         activeClassName={style.header__navLink_active}
         class={classnames({
@@ -56,35 +73,25 @@ export default class Header extends Component {
     ));
   }
 
-  render(props: HeaderProps) {
-    const { userData } = props;
-    const userDataProps = Boolean(userData)
-      ? {
-          id: userData.id,
-          displayName: userData.displayName,
-          photoUrl: userData.photoURL,
-          createdAt: userData.createdAt
-        }
-      : {};
+  render() {
+    const { userData, onNavToggle, loading, navOpen } = this.props;
+    const userDataProps = this.getUserDataProps(userData);
 
     return (
       <header class={style.header}>
         <div class={style.header__visibleSection}>
-          <button
-            onClick={props.onNavToggle}
-            class={style.header__togglerButton}
-          >
-            {this.renderBurgerButton(props.navOpen)}
+          <button onClick={onNavToggle} class={style.header__togglerButton}>
+            {this.renderBurgerButton(navOpen)}
           </button>
           <UserData
-            loading={props.loading}
-            navOpen={props.navOpen}
+            loading={loading}
+            navOpen={navOpen}
             loggedIn={Boolean(userData)}
             {...userDataProps}
           />
         </div>
         <nav class={style.header__nav}>
-          {this.renderLinks(this.links, props.navOpen, props.onNavToggle)}
+          {this.renderLinks(this.links, navOpen, onNavToggle)}
         </nav>
       </header>
     );

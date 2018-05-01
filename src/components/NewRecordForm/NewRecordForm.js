@@ -1,5 +1,5 @@
 // @flow
-import { h, Component } from "preact";
+import React, { Component } from "react";
 import moment from "moment";
 
 import { getSnapshot, getRecordsRef } from "../../lib/firebase.helpers";
@@ -19,7 +19,10 @@ type NewRecrodFormState = {
   refillingPrice: number
 };
 
-export default class New extends Component {
+export default class New extends Component<
+  NewRecrodFormProps,
+  NewRecrodFormState
+> {
   recordsDataRef = null;
 
   state: NewRecrodFormState = {
@@ -33,15 +36,16 @@ export default class New extends Component {
     return moment(date).format("LL");
   }
 
-  submit = (e: Event<HTMLFormElement>) => {
+  submit = (e: Event) => {
     if (e) {
       e.preventDefault();
     }
     this.props.onSubmit(this.state);
   };
 
-  handleInputChange = (e: Event<HTMLInputElement>) => {
-    switch (e.target.name) {
+  handleInputChange = (e: Event) => {
+    (e.currentTarget: HTMLInputElement);
+    switch (e.currentTarget.name) {
       // case "litresFilled": {
       //   if (/\d/.test(e.key) === false && e.key !== ".") {
       //     e.preventDefault();
@@ -65,7 +69,14 @@ export default class New extends Component {
     return style.form__input;
   }
 
-  render(props: NewRecrodFormProps, state: NewRouteState) {
+  render() {
+    const {
+      litresFilled,
+      refillingDate,
+      totalCarMileage,
+      refillingPrice
+    } = this.state;
+
     return (
       <form action="#" onSubmit={this.submit}>
         <label htmlFor="litresFilled" class={style.form__label}>
@@ -76,7 +87,7 @@ export default class New extends Component {
           name="litresFilled"
           id="litresFilled"
           placeholder="E.G.: 18.4"
-          value={state.litresFilled || ""}
+          value={litresFilled || ""}
           class={this.getInputClassNames("litresFilled")}
           onKeyDown={this.handleInputChange}
         />
@@ -88,7 +99,7 @@ export default class New extends Component {
           type="text"
           name="refillingDate"
           id="refillingDate"
-          value={state.refillingDate}
+          value={refillingDate}
           placeholder={this.formatDate(new Date())}
           class={this.getInputClassNames("refillingDate")}
           onKeyDown={this.handleInputChange}
@@ -101,7 +112,7 @@ export default class New extends Component {
           type="tel"
           name="totalCarMileage"
           id="totalCarMileage"
-          value={state.totalCarMileage || ""}
+          value={totalCarMileage || ""}
           placeholder="E.G.: 18732"
           class={this.getInputClassNames("totalCarMileage")}
           onKeyDown={this.handleInputChange}
@@ -114,7 +125,7 @@ export default class New extends Component {
           type="tel"
           name="refillingPrice"
           id="refillingPrice"
-          value={state.refillingPrice || ""}
+          value={refillingPrice || ""}
           placeholder="E.G: 356"
           class={this.getInputClassNames("refillingPrice")}
           onKeyDown={this.handleInputChange}

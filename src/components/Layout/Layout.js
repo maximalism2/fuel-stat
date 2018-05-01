@@ -1,5 +1,5 @@
 // @flow
-import { h, Component } from "preact";
+import React, { Component } from "react";
 import classnames from "classnames";
 
 import Header from "../Header/Header";
@@ -13,14 +13,14 @@ type LayoutProps = {|
   loggedIn: boolean,
   currentUrl: string,
   userData: CurrentUserType,
-  children: mixed[]
+  children: React$Element<*>[]
 |};
 
 type LayoutState = {
   navOpen: boolean
 };
 
-export default class Layout extends Component {
+export default class Layout extends Component<LayoutProps, LayoutState> {
   state: LayoutState = {
     navOpen: false
   };
@@ -36,27 +36,30 @@ export default class Layout extends Component {
     }
   }
 
-  render(props: LayoutProps, state: LayoutState) {
+  render() {
+    const { loading, loggedIn, userData, children } = this.props;
+    const { navOpen } = this.state;
+
     const layoutCN = classnames({
       [style.layout]: true,
-      [style.layout_navOpen]: state.navOpen
+      [style.layout_navOpen]: navOpen
     });
 
     const layoutContentCN = classnames({
       [style.layout__content]: true,
-      [style.layout__content_navOpen]: state.navOpen
+      [style.layout__content_navOpen]: navOpen
     });
 
     return (
       <main class={layoutCN}>
         <Header
-          loading={props.loading}
-          loggedIn={props.loggedIn}
-          userData={props.userData}
-          navOpen={state.navOpen}
+          loading={loading}
+          loggedIn={loggedIn}
+          userData={userData}
+          navOpen={navOpen}
           onNavToggle={this.toggle}
         />
-        <section className={layoutContentCN}>{props.children}</section>
+        <section className={layoutContentCN}>{children}</section>
       </main>
     );
   }

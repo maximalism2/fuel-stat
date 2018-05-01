@@ -1,4 +1,4 @@
-import { h, Component } from "preact";
+import React, { Component } from "react";
 
 import AddRecordButton from "../../components/AddRecordButton/AddRecordButton";
 import { getSnapshot } from "../../lib/firebase.helpers";

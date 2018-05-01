@@ -1,5 +1,5 @@
 // @flow
-import { h, Component } from "preact";
+import React from "react";
 import classnames from "classnames";
 import moment from "moment";
 import style from "./style.css";
