@@ -25,6 +25,13 @@
 		<%= htmlWebpackPlugin.options.ssr({
 			url: '/'
 		}) %>
+
+		<!-- Including Firebase -->
+		<script defer src="https://www.gstatic.com/firebasejs/4.13.0/firebase-app.js"></script>
+		<script defer src="https://www.gstatic.com/firebasejs/4.13.0/firebase-auth.js"></script>
+		<script defer src="https://www.gstatic.com/firebasejs/4.13.0/firebase-database.js"></script>
+
+		<!-- Including bundle -->
 		<script defer src="<%= htmlWebpackPlugin.files.chunks['bundle'].entry %>"></script>
 		<script>window.fetch||document.write('<script src="<%= htmlWebpackPlugin.files.chunks["polyfills"].entry %>"><\/script>')</script>
 	</body>
