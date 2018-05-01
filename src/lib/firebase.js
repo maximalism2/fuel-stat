@@ -1,9 +1,10 @@
-import firebase from "firebase/app";
-import "firebase/auth";
-import "firebase/database";
-import "firebase/firestore";
-import "firebase/messaging";
-import "firebase/functions";
+const firebase = (() => {
+  if (typeof window.firebase === "undefined") {
+    throw new Error("There is no Firebase loaded");
+  }
+
+  return window.firebase;
+})();
 
 const config = {
   apiKey: "AIzaSyCEUjxUHRfL6twll8LCHP80grFvJIL8D3g",

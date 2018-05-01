@@ -38,45 +38,45 @@ export default class App extends Component {
     };
   };
 
-  login = async () => {
+  login = () => {
     let loginResult = null;
 
     this.setState(() => ({ signInLoading: true }));
 
-    try {
-      loginResult = await login(false);
-    } catch (e) {
-      this.setState(() => ({ signInLoading: false, authError: e.message }));
-      return;
-    }
-
-    if (loginResult.user) {
-      this.setCurrentUserData(loginResult.user);
-      this.setState(() => ({ signInLoading: false, signedIn: true }));
-    } else {
-      this.setState(() => ({ signInLoading: false, signedIn: false }));
-    }
+    login(false)
+      .then(loginResult => {
+        if (loginResult.user) {
+          this.setCurrentUserData(loginResult.user);
+          this.setState(() => ({ signInLoading: false, signedIn: true }));
+        } else {
+          this.setState(() => ({ signInLoading: false, signedIn: false }));
+        }
+      })
+      .catch(e => {
+        this.setState(() => ({ signInLoading: false, authError: e.message }));
+      });
   };
 
-  checkRedirectResult = async () => {
-    const plainData = await getRedirectResult();
-    this.setCurrentUserData(plainData);
+  checkRedirectResult = () =>
+    getRedirectResult().then(plainData => {
+      this.setCurrentUserData(plainData);
 
-    this.setState(() => ({
-      authChecking: false,
-      signedIn: this.currentUser !== null
-    }));
-  };
+      this.setState(() => ({
+        authChecking: false,
+        signedIn: this.currentUser !== null
+      }));
+    });
 
-  async componentDidMount() {
-    const plainData = await getCurrentUser();
-    this.setCurrentUserData(plainData);
+  componentDidMount() {
+    getCurrentUser().then(plainData => {
+      this.setCurrentUserData(plainData);
 
-    if (this.currentUser === null) {
-      this.checkRedirectResult();
-    } else {
-      this.setState(() => ({ authChecking: false, signedIn: true }));
-    }
+      if (this.currentUser === null) {
+        this.checkRedirectResult();
+      } else {
+        this.setState(() => ({ authChecking: false, signedIn: true }));
+      }
+    });
   }
 
   /** Gets fired when the route changes.

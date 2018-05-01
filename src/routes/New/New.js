@@ -4,12 +4,13 @@ import { h, Component } from "preact";
 import NewRecordForm from "../../components/NewRecordForm/NewRecordForm";
 import { getSnapshot, getRecordsRef } from "../../lib/firebase.helpers";
 
-import style from "./style";
+import style from "./style.css";
 
-export default class New extends Component {
+// TODO: add flow annotation for this route
+export default class New extends Component<mixed> {
   recordsDataRef = null;
 
-  async componentDidMount() {
+  componentDidMount() {
     const { userData } = this.props;
     if (!userData) {
       return;
@@ -17,8 +18,9 @@ export default class New extends Component {
 
     this.recordsDataRef = getRecordsRef(userData.uid);
 
-    const data = await getSnapshot();
-    console.log({ data: data.val() });
+    getSnapshot().then(data => {
+      console.log({ data: data.val() });
+    });
   }
 
   submit = fields => {

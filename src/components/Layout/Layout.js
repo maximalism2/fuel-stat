@@ -4,7 +4,7 @@ import classnames from "classnames";
 
 import Header from "../Header/Header";
 
-import style from "./style";
+import style from "./style.css";
 
 import type { CurrentUserType } from "../../lib/types/CurrentUser";
 

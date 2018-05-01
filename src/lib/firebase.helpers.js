@@ -17,31 +17,21 @@ export const getRedirectResult = () =>
   );
 
 export const login = (isMobile: boolean) =>
-  new Promise(async (resolve, reject) => {
+  new Promise((resolve, reject) => {
     let loginResult = null;
-    await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-
-    if (isMobile) {
-      auth.signInWithRedirect(googleAuthProvider);
-    } else {
-      try {
-        loginResult = await auth.signInWithPopup(googleAuthProvider);
-        resolve(loginResult);
-      } catch (e) {
-        reject(e);
+    auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(() => {
+      if (isMobile) {
+        auth.signInWithRedirect(googleAuthProvider);
+      } else {
+        auth
+          .signInWithPopup(googleAuthProvider)
+          .then(resolve)
+          .catch(reject);
       }
-    }
+    });
   });
 
-export const getSnapshot = () =>
-  new Promise(async (resolve, reject) => {
-    try {
-      const snapshow = await database.ref().once("value");
-      resolve(snapshow);
-    } catch (e) {
-      reject(e);
-    }
-  });
+export const getSnapshot = () => database.ref().once("value");
 
 export const getRecordsRef = (uid: string): mixed => {
   if (typeof uid !== "string" || uid.length === 0) {

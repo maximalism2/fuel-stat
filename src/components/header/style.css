@@ -83,12 +83,20 @@
   font-size: 1.5em;
   padding: 0.4em 0;
   text-decoration: none;
+  opacity: 1;
+  transform: none;
+  transition: .4s;
 }
 
 .header__navLink_active {
   font-weight: 700;
   color: #fafafa;
   position: relative;
+}
+
+.header__navLink_navHidden {
+  opacity: 0 !important;
+  transform: translateX(-30px);
 }
 
 .header__navLink_active::after {

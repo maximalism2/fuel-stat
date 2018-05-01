@@ -5,7 +5,7 @@ import moment from "moment";
 import { getSnapshot, getRecordsRef } from "../../lib/firebase.helpers";
 // import { acceptNumber } from "./New.helpers";
 
-import style from "./style";
+import style from "./style.css";
 
 type NewRecrodFormProps = {
   loading: boolean,

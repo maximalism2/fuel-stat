@@ -2,7 +2,7 @@
 import { h, Component } from "preact";
 import classnames from "classnames";
 import moment from "moment";
-import style from "./style";
+import style from "./style.css";
 
 window.moment = moment;
 

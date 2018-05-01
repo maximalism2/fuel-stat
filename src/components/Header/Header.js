@@ -3,7 +3,7 @@ import { h, Component } from "preact";
 import { Link } from "preact-router/match";
 import classnames from "classnames";
 import UserData from "../UserData/UserData";
-import style from "./style";
+import style from "./style.css";
 
 import type { CurrentUserType } from "../../lib/types/CurrentUser";
 
@@ -38,14 +38,16 @@ export default class Header extends Component {
     return <span class={burgerCN} />;
   }
 
-  renderLinks(links: NavLinkType[], toggleNav: () => void) {
-    return links.map(link => (
+  renderLinks(links: NavLinkType[], navOpen: boolean, toggleNav: () => void) {
+    return links.map((link, index) => (
       <Link
         activeClassName={style.header__navLink_active}
-        class={
-          style.header__navLink +
-          (link.dimmed === true ? ` ${style.header__navLink_dimmed}` : "")
-        }
+        class={classnames({
+          [style.header__navLink]: true,
+          [style.header__navLink_dimmed]: link.dimmed === true,
+          [style.header__navLink_navHidden]: navOpen === false
+        })}
+        style={{ transitionDelay: `.${index}s` }}
         href={link.href}
         onClick={toggleNav}
       >
@@ -82,7 +84,7 @@ export default class Header extends Component {
           />
         </div>
         <nav class={style.header__nav}>
-          {this.renderLinks(this.links, props.onNavToggle)}
+          {this.renderLinks(this.links, props.navOpen, props.onNavToggle)}
         </nav>
       </header>
     );
