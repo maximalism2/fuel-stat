@@ -70,7 +70,6 @@ class App extends Component<AppProps> {
   checkRedirectResult = () =>
     getRedirectResult().then(plainData => {
       const userData = this.parseUserData(plainData);
-      console.log(this.props);
 
       if (userData !== null) {
         this.props.storeUserDataAndChangeStatus(userData);
@@ -82,7 +81,6 @@ class App extends Component<AppProps> {
   componentDidMount() {
     getCurrentUser().then(plainData => {
       const userData = this.parseUserData(plainData);
-      console.log({ userData });
 
       if (userData === null) {
         this.checkRedirectResult();
