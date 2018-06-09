@@ -1,4 +1,14 @@
-import "./style/index.css";
-import App from "./components/app";
+import React from "react";
+import { Provider } from "react-redux";
+import store from "./lib/store";
 
-export default App;
+import { App } from "./components/main";
+import "./style/index.css";
+
+export default function Entry() {
+  return (
+    <Provider store={store}>
+      <App />
+    </Provider>
+  );
+}

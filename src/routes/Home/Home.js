@@ -18,7 +18,9 @@ export default class Home extends Component {
     }
 
     getSnapshot().then(data => {
-      this.setState(() => ({ data: JSON.stringify(data.val()) }));
+      this.setState(() => ({
+        data: JSON.stringify(data.val())
+      }));
     });
   }
 
@@ -27,7 +29,7 @@ export default class Home extends Component {
       <section class={style.home}>
         <AddRecordButton />
         <h1>Home</h1>
-        <img src={gasPumpIcon} class={style.home__icon} />
+        {/*<img src={gasPumpIcon} class={style.home__icon} /> */}
         <code>{state.data}</code>
       </section>
     );

@@ -8,21 +8,20 @@ import style from "./style.css";
 
 import type { CurrentUserType } from "../../lib/types/CurrentUser";
 
-type LayoutProps = {|
+type LayoutProps = {
   loading: boolean,
   loggedIn: boolean,
   currentUrl: string,
   userData: CurrentUserType,
-  children: React$Element<*>[]
-|};
+};
 
 type LayoutState = {
-  navOpen: boolean
+  navOpen: boolean,
 };
 
 export default class Layout extends Component<LayoutProps, LayoutState> {
   state: LayoutState = {
-    navOpen: false
+    navOpen: false,
   };
 
   toggle = () => {
@@ -30,7 +29,6 @@ export default class Layout extends Component<LayoutProps, LayoutState> {
   };
 
   componentWillReceiveProps(nextProps: LayoutProps) {
-    console.log({ nextProps });
     if (this.props.currentUrl !== nextProps.currentUrl && this.state.navOpen) {
       this.setState(() => ({ navOpen: false }));
     }
@@ -42,23 +40,17 @@ export default class Layout extends Component<LayoutProps, LayoutState> {
 
     const layoutCN = classnames({
       [style.layout]: true,
-      [style.layout_navOpen]: navOpen
+      [style.layout_navOpen]: navOpen,
     });
 
     const layoutContentCN = classnames({
       [style.layout__content]: true,
-      [style.layout__content_navOpen]: navOpen
+      [style.layout__content_navOpen]: navOpen,
     });
 
     return (
       <main class={layoutCN}>
-        <Header
-          loading={loading}
-          loggedIn={loggedIn}
-          userData={userData}
-          navOpen={navOpen}
-          onNavToggle={this.toggle}
-        />
+        <Header loading={loading} loggedIn={loggedIn} userData={userData} navOpen={navOpen} onNavToggle={this.toggle} />
         <section className={layoutContentCN}>{children}</section>
       </main>
     );

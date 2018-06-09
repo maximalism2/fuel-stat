@@ -1,6 +1,8 @@
 // @flow
 
-export type CurrentUserType = {
+export type CurrentUserType = UserData | null;
+
+export type UserData = {
   uid: string,
   displayName: string,
   email: string,
