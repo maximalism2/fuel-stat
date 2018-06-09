@@ -4,7 +4,8 @@ import { Router } from "preact-router";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 
-import { getCurrentUser, getRedirectResult, login } from "../../lib/firebase.helpers";
+import { getCurrentUser, getRedirectResult } from "../../lib/firebase.helpers";
+import { parseUserData } from "../../lib/helpers";
 import { storeUserDataAndChangeStatus, changeAuthStatus } from "../../actions/auth";
 
 import type { CurrentUserType, UserData } from "../../lib/types/CurrentUser";
@@ -16,7 +17,7 @@ import type { StoreUserDataAndChangeStatus, ChangeAuthStatus } from "../../actio
 import Layout from "../Layout/Layout";
 import Home from "../../routes/Home/Home";
 import New from "../../routes/New/New.async";
-// import Login from "../../routes/Login/Login.async";
+import Login from "../../routes/Login/Login.async";
 
 type AppProps = {
   authState: AuthState,
@@ -28,48 +29,9 @@ type AppProps = {
 class App extends Component<AppProps> {
   currentUrl: string;
 
-  parseUserData = (plainData: mixed): CurrentUserType => {
-    if (!plainData || typeof plainData.toJSON !== "function") {
-      return null;
-    }
-
-    const data: UserData = plainData.toJSON();
-
-    return {
-      uid: data.uid,
-      displayName: data.displayName,
-      email: data.email,
-      photoURL: data.photoURL,
-      lastLoginAt: data.lastLoginAt,
-      createdAt: data.createdAt,
-    };
-  };
-
-  login = () => {
-    let loginResult = null;
-
-    this.props.changeAuthStatus({ signInLoading: true });
-
-    login(false)
-      .then(loginResult => {
-        if (loginResult.user) {
-          const userData: CurrentUserType = this.parseUserData(loginResult.user);
-
-          if (userData !== null) {
-            this.props.storeUserDataAndChangeStatus(userData);
-          }
-        } else {
-          this.props.changeAuthStatus({ signInLoading: false, signedIn: false });
-        }
-      })
-      .catch(e => {
-        this.props.changeAuthStatus({ signInLoading: false, authError: e.message });
-      });
-  };
-
   checkRedirectResult = () =>
     getRedirectResult().then(plainData => {
-      const userData = this.parseUserData(plainData);
+      const userData = parseUserData(plainData);
 
       if (userData !== null) {
         this.props.storeUserDataAndChangeStatus(userData);
@@ -80,7 +42,7 @@ class App extends Component<AppProps> {
 
   componentDidMount() {
     getCurrentUser().then(plainData => {
-      const userData = this.parseUserData(plainData);
+      const userData = parseUserData(plainData);
 
       if (userData === null) {
         this.checkRedirectResult();
@@ -119,8 +81,7 @@ class App extends Component<AppProps> {
     }
 
     if (authState.signedIn === false) {
-      // return <Login />;
-      return null;
+      return <Login />;
     }
 
     return (

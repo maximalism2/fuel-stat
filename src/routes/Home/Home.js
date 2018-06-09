@@ -8,7 +8,7 @@ import style from "./style.css";
 
 export default class Home extends Component {
   state = {
-    data: ""
+    data: "",
   };
 
   componentDidMount() {
@@ -19,7 +19,7 @@ export default class Home extends Component {
 
     getSnapshot().then(data => {
       this.setState(() => ({
-        data: JSON.stringify(data.val())
+        data: JSON.stringify(data.val()),
       }));
     });
   }
@@ -29,7 +29,7 @@ export default class Home extends Component {
       <section class={style.home}>
         <AddRecordButton />
         <h1>Home</h1>
-        {/*<img src={gasPumpIcon} class={style.home__icon} /> */}
+        <img src={gasPumpIcon} class={style.home__icon} />
         <code>{state.data}</code>
       </section>
     );
