@@ -70,7 +70,7 @@ class Login extends Component<LoginProps> {
 
         <div class={styles.login__controlsWrapper}>
           <h2 class={styles.login__subtitle}>Login with:</h2>
-          <button onClick={this.login} class={buttonCN} disabled={authState.authChecking}>
+          <button onClick={this.login} class={buttonCN} disabled={authState.authChecking || authState.signInLoading}>
             <img src={googleIcon} aria-hidden />
             Google
           </button>
