@@ -63,14 +63,6 @@ class App extends Component<AppProps> {
   render() {
     const { authState, currentUserData } = this.props;
 
-    if (authState.authChecking) {
-      return <h1>Checking auth status</h1>;
-    }
-
-    if (authState.signInLoading) {
-      return <h1>Authenticating</h1>;
-    }
-
     if (authState.authError !== null) {
       return (
         <div>

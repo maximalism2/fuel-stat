@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import classnames from "classnames";
 
 import { parseUserData } from "../../lib/helpers";
 import { login } from "../../lib/firebase.helpers";
@@ -47,16 +48,35 @@ class Login extends Component<LoginProps> {
   };
 
   render() {
+    const { authState } = this.props;
+
+    const buttonCN = classnames({
+      [styles.login__button]: true,
+      [styles.login__button_loading]: authState.signInLoading,
+    });
+
+    const status = authState.signInLoading
+      ? "Authenticating..."
+      : authState.authChecking
+        ? "Checking auth status..."
+        : "";
+
     return (
       <main class={styles.login}>
-        <img src={gasPumpIcon} class={styles.login__icon} />
-        <h1 class={styles.login__title}>Fuel-Stats</h1>
+        <div class={styles.login__iconWrapper}>
+          <img src={gasPumpIcon} class={styles.login__icon} />
+          <h1 class={styles.login__title}>Fuel-Stats</h1>
+        </div>
 
-        <h2 class={styles.login__subtitle}>Login with:</h2>
-        <button onClick={this.login} class={styles.login__button}>
-          <img src={googleIcon} aria-hidden />
-          Google
-        </button>
+        <div class={styles.login__controlsWrapper}>
+          <h2 class={styles.login__subtitle}>Login with:</h2>
+          <button onClick={this.login} class={buttonCN} disabled={authState.authChecking}>
+            <img src={googleIcon} aria-hidden />
+            Google
+          </button>
+        </div>
+
+        <div class={styles.login__statusText}>{status}</div>
       </main>
     );
   }
