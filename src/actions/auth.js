@@ -1,7 +1,11 @@
 // @flow
+import { login as firebaseLogin } from "../lib/firebase.helpers";
+import { parseUserData } from "../lib/helpers";
+
 import type { Action } from "../lib/types/common";
-import type { UserData } from "../lib/types/CurrentUser";
+import type { UserData, CurrentUserType } from "../lib/types/CurrentUser";
 import type { AuthStateKey, AuthStateSlice } from "../lib/types/Auth";
+import type { ThunkAction } from "../lib/types/common";
 
 export const AUTH_ACTIONS = {
   LOGOUT: "AUTH/LOGOUT",
@@ -21,3 +25,24 @@ export const storeUserDataAndChangeStatus: StoreUserDataAndChangeStatus = payloa
   type: AUTH_ACTIONS.STORE_USERDATA_AND_CHANGE_STATUS,
   payload,
 });
+
+export type LoginUser = (isMobile?: boolean) => ThunkAction;
+export const loginUser: LoginUser = (isMobile = true) => dispatch => {
+  dispatch(changeAuthStatus({ signInLoading: true }));
+
+  firebaseLogin(isMobile)
+    .then(loginResult => {
+      if (loginResult.user) {
+        const userData: CurrentUserType = parseUserData(loginResult.user);
+
+        if (userData !== null) {
+          dispatch(storeUserDataAndChangeStatus(userData));
+        }
+      } else {
+        dispatch(changeAuthStatus({ signInLoading: false, signedIn: false }));
+      }
+    })
+    .catch(e => {
+      dispatch(changeAuthStatus({ signInLoading: false, authError: e.message }));
+    });
+};
