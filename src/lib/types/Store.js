@@ -1,12 +1,11 @@
 // @flow
 import type { AuthStore } from "./Auth";
+import type { RecordsStore } from "./Records";
 
 export type Store = {
   auth: AuthStore,
-  records: Records,
-  ui: UI
+  records: RecordsStore,
+  ui: UI,
 };
-
-export type Records = {};
 
 export type UI = {};
