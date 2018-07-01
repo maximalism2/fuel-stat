@@ -1,5 +1,6 @@
-// @flow
 import firebase, { auth, database, googleAuthProvider } from "./firebase";
+import type { FirebaseDataResponse } from "./types/common";
+import type { Records } from "./types/Records";
 
 export const getCurrentUser = () =>
   new Promise(resolve =>
@@ -13,7 +14,7 @@ export const getRedirectResult = () =>
     auth
       .getRedirectResult()
       .then(result => resolve(result.user))
-      .catch(error => reject(error))
+      .catch(reject)
   );
 
 export const login = (isMobile: boolean) =>
@@ -33,10 +34,12 @@ export const login = (isMobile: boolean) =>
 
 export const getSnapshot = () => database.ref().once("value");
 
-export const getRecordsRef = (uid: string): mixed => {
-  if (typeof uid !== "string" || uid.length === 0) {
-    throw new Error("uid must be a valid user id, but you passed " + uid);
-  }
+export const getRecordsRef = (uid: string): mixed => database.ref(`records/`);
 
-  return database.ref(`records/${uid}`);
+export const getUserRecordsOnce = (userId: string): Promise<FirebaseDataResponse<Records>> => {
+  return database
+    .ref("records")
+    .orderByChild("ownerId")
+    .equalTo(userId)
+    .once("value");
 };
