@@ -83,15 +83,22 @@ $body-background-color: $white;
   }
 }
 
-@mixin spinner($spinner-path, $spinner-size: 1em) {
+@mixin spinner($spinner-path: null, $spinner-size: 1em) {
+  width: $spinner-size;
+  height: $spinner-size;
+  animation: spin .5s linear infinite;
+
+  @if ($spinner-path) {
+    background: url($spinner-path) no-repeat center;
+    background-size: contain;
+  }
+}
+
+@mixin spinner_pseudo($spinner-path: null, $spinner-size: 1em) {
+  @include spinner($spinner-path, $spinner-size);
   position: absolute;
   top: calc(50% - #{$spinner-size / 2});
   left: calc(50% - #{$spinner-size / 2});
-  width: $spinner-size;
-  height: $spinner-size;
-  background: url($spinner-path) no-repeat center;
-  background-size: contain;
-  animation: spin .5s linear infinite;
 }
 
 @mixin tablet() {

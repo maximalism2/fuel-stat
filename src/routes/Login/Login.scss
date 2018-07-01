@@ -44,8 +44,8 @@
       cursor: wait;
 
       &::after {
+        @include spinner_pseudo('../../assets/icons/spinner_green.svg');
         content: '';
-        @include spinner('../../assets/icons/spinner_green.svg');
       }
 
       img {
@@ -77,5 +77,11 @@
     right: 10px;
     color: $text-color-transparent;
     font-size: 1em;
+  }
+
+  &__spinner {
+    @include spinner(null, 3em);
+    display: block;
+    margin: auto;
   }
 }

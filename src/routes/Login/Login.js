@@ -16,6 +16,7 @@ import type { ChangeAuthStatus, StoreUserDataAndChangeStatus } from "../../actio
 
 import googleIcon from "../../assets/icons/google_icon.svg";
 import gasPumpIcon from "../../assets/gas-pump.svg";
+import spinner from "../../assets/icons/spinner_grey.svg";
 import styles from "./Login.css";
 
 type LoginProps = {
@@ -68,13 +69,17 @@ class Login extends Component<LoginProps> {
           <h1 class={styles.login__title}>Fuel-Stats</h1>
         </div>
 
-        <div class={styles.login__controlsWrapper}>
-          <h2 class={styles.login__subtitle}>Login with:</h2>
-          <button onClick={this.login} class={buttonCN} disabled={authState.authChecking || authState.signInLoading}>
-            <img src={googleIcon} aria-hidden />
-            Google
-          </button>
-        </div>
+        {!authState.authChecking ? (
+          <div class={styles.login__controlsWrapper}>
+            <h2 class={styles.login__subtitle}>Login with:</h2>
+            <button onClick={this.login} class={buttonCN} disabled={authState.authChecking || authState.signInLoading}>
+              <img src={googleIcon} aria-hidden />
+              Google
+            </button>
+          </div>
+        ) : (
+          <img src={spinner} class={styles.login__spinner} />
+        )}
 
         <div class={styles.login__statusText}>{status}</div>
       </main>
