@@ -1,37 +1,78 @@
+// @flow
 import React, { Component } from "react";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import classnames from "classnames";
 
 import AddRecordButton from "../../components/AddRecordButton/AddRecordButton";
+import FuelChart from "../../components/FuelChart/FuelChart";
 import { getSnapshot } from "../../lib/firebase.helpers";
+import { loadRecords } from "../../actions/records";
 
-import gasPumpIcon from "../../assets/gas-pump.svg";
-import style from "./style.css";
+import type { Store } from "../../lib/types/Store";
+import type { LoadRecords } from "../../actions/records";
+import type { Dispatcher } from "../../lib/types/common";
+import type { RecordsData, RecordsState } from "../../lib/types/Records";
 
-export default class Home extends Component {
-  state = {
-    data: "",
-  };
+import styles from "./style.css";
+import spinner from "../../assets/icons/spinner_grey.svg";
 
+type HomeProps = {
+  loadRecords: LoadRecords,
+  recordsData: RecordsData,
+  recordsState: RecordsState,
+  userId: ?string,
+};
+
+type HomeState = {};
+
+class Home extends Component<HomeProps, HomeState> {
   componentDidMount() {
-    const { userData } = this.props;
-    if (!userData || !userData.uid) {
-      return;
+    if (this.props.userId) {
+      this.props.loadRecords(this.props.userId);
     }
-
-    getSnapshot().then(data => {
-      this.setState(() => ({
-        data: JSON.stringify(data.val()),
-      }));
-    });
   }
 
-  render(props: mixed, state: mixed) {
+  render() {
+    const { recordsState, recordsData } = this.props;
+    const areRecordsExist = recordsData.ids.length > 0;
+
+    const spinnerCN = classnames(styles.home_spinner, {
+      [styles.home__spinner_update]: areRecordsExist,
+    });
+
     return (
-      <section class={style.home}>
+      <section class={styles.home}>
         <AddRecordButton />
-        <h1>Home</h1>
-        <img src={gasPumpIcon} class={style.home__icon} />
-        <code>{state.data}</code>
+
+        {recordsState.loading && <img src={spinner} class={spinnerCN} />}
+
+        {areRecordsExist && <FuelChart records={recordsData.records} />}
       </section>
     );
   }
 }
+
+const mapStateToProps = (state: Store, ownProps: HomeProps): HomeProps => {
+  const { userData } = state.auth;
+
+  return {
+    ...ownProps,
+    userId: userData ? userData.uid : null,
+    recordsData: state.records.data,
+    recordsState: state.records.state,
+  };
+};
+
+const mapDispatchToProps = (dispatch: Dispatcher, ownProps: HomeProps): HomeProps => {
+  const actionCreators = {
+    loadRecords,
+  };
+
+  return {
+    ...ownProps,
+    ...bindActionCreators(actionCreators, dispatch),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
