@@ -1,11 +1,17 @@
 // @flow
 export type Action<T> = {
   type: string,
-  payload: T
+  payload: T,
 };
 
 export type Dispatcher = (Action<*>) => void;
 
 export type DispatchProps = {
-  dispatch: Dispatcher
+  dispatch: Dispatcher,
+};
+
+export type ThunkAction = (dispatch: Dispatcher) => void;
+
+export type FirebaseDataResponse<T> = {
+  val: () => T,
 };
