@@ -11,12 +11,12 @@ export default class New extends Component<mixed> {
   recordsDataRef = null;
 
   componentDidMount() {
-    const { userData } = this.props;
-    if (!userData) {
-      return;
-    }
+    // const { userData } = this.props;
+    // if (!userData) {
+    //   return;
+    // }
 
-    this.recordsDataRef = getRecordsRef(userData.uid);
+    this.recordsDataRef = getRecordsRef();
 
     getSnapshot().then(data => {
       console.log({ data: data.val() });
@@ -24,8 +24,17 @@ export default class New extends Component<mixed> {
   }
 
   submit = fields => {
-    const newRecord = this.recordsDataRef.push();
-    console.log(newRecord.set(fields));
+    const newRecord = this.recordsDataRef
+      .push({
+        ownerId: "qsDi4TcoomYeN0dGF8jG2n6s4L03",
+        ...fields,
+      })
+      .then(res => {
+        console.log(res);
+      });
+    // newRecord
+    //   .set()
+    //   .then(res => console.log({ res }));
   };
 
   render(props: mixed, state: mixed) {
