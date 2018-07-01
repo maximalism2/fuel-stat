@@ -37,7 +37,7 @@ class Home extends Component<HomeProps, HomeState> {
     const { recordsState, recordsData } = this.props;
     const areRecordsExist = recordsData.ids.length > 0;
 
-    const spinnerCN = classnames(styles.home_spinner, {
+    const spinnerCN = classnames(styles.home__spinner, {
       [styles.home__spinner_update]: areRecordsExist,
     });
 
@@ -45,7 +45,10 @@ class Home extends Component<HomeProps, HomeState> {
       <section class={styles.home}>
         <AddRecordButton />
 
-        {recordsState.loading && <img src={spinner} class={spinnerCN} />}
+        <div class={styles.home__spinnerWrapper}>
+          {/* {recordsState.loading && } */}
+          <img src={spinner} class={spinnerCN} />
+        </div>
 
         {areRecordsExist && <FuelChart records={recordsData.records} />}
       </section>

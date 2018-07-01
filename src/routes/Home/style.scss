@@ -1,16 +1,17 @@
 @import "settings";
 
 .home {
-	/* padding: 56px 20px; */
-	min-height: 100%;
-	width: 100%;
-	position: relative;
-}
+  min-height: 100%;
+  width: 100%;
+  position: relative;
 
+  &__spinner {
+    @include spinner(null, 2em);
+    display: block;
+    margin: auto;
+  }
 
-.home__icon {
-	width: 200px;
-	height: 200px;
-	display: block;
-	margin: 30px auto;
+  &__spinnerWrapper {
+    padding-top: 4em;
+  }
 }
