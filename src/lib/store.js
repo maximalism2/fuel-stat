@@ -9,10 +9,10 @@ const composeStore = () => {
 
   if (process.env.NODE_ENV === "development") {
     const logger = createLogger({
-      collapsed: true
+      collapsed: true,
     });
 
-    middlewares.unshift(logger);
+    middlewares.push(logger);
   }
 
   return createStore(reducers, applyMiddleware(...middlewares));
