@@ -7,12 +7,14 @@ import Header from "../Header/Header";
 import style from "./style.css";
 
 import type { CurrentUserType } from "../../lib/types/CurrentUser";
+import type { ReactChildrenType } from "../../lib/types/common";
 
 type LayoutProps = {
   loading: boolean,
   loggedIn: boolean,
   currentUrl: string,
   userData: CurrentUserType,
+  children: ReactChildrenType,
 };
 
 type LayoutState = {

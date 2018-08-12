@@ -15,3 +15,9 @@ export type ThunkAction = (dispatch: Dispatcher) => void;
 export type FirebaseDataResponse<T> = {
   val: () => T,
 };
+
+type SingleReactShildrenType = React$Element<*> | null | string;
+export type ReactChildrenType =
+  | SingleReactShildrenType
+  | SingleReactShildrenType[]
+  | (() => SingleReactShildrenType | (() => SingleReactShildrenType[]));
