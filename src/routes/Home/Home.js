@@ -6,6 +6,7 @@ import classnames from "classnames";
 
 import AddRecordButton from "../../components/AddRecordButton/AddRecordButton";
 import FuelChart from "../../components/FuelChart/FuelChart";
+import MainStat from "../../components/MainStat/MainStat";
 import { getSnapshot } from "../../lib/firebase.helpers";
 import { loadRecords } from "../../actions/records";
 
@@ -37,6 +38,10 @@ class Home extends Component<HomeProps, HomeState> {
     const { recordsState, recordsData } = this.props;
     const areRecordsExist = recordsData.ids.length > 0;
 
+    const spinnerWrapperCN = classnames(styles.home__spinnerWrapper, {
+      [styles.home__spinnerWrapper_update]: areRecordsExist,
+    });
+
     const spinnerCN = classnames(styles.home__spinner, {
       [styles.home__spinner_update]: areRecordsExist,
     });
@@ -45,25 +50,28 @@ class Home extends Component<HomeProps, HomeState> {
       <section class={styles.home}>
         <AddRecordButton />
 
-        <div class={styles.home__spinnerWrapper}>
-          {/* {recordsState.loading && } */}
-          <img src={spinner} class={spinnerCN} />
-        </div>
+        {recordsState.loading && (
+          <div class={spinnerWrapperCN}>
+            <img src={spinner} class={spinnerCN} />
+          </div>
+        )}
 
-        {areRecordsExist && <FuelChart records={recordsData.records} />}
+        {areRecordsExist && <MainStat records={recordsData.records} />}
+
+        {/* {areRecordsExist && <FuelChart records={recordsData.records} />} */}
       </section>
     );
   }
 }
 
-const mapStateToProps = (state: Store, ownProps: HomeProps): HomeProps => {
-  const { userData } = state.auth;
+const mapStateToProps = ({ auth, records }: Store, ownProps: HomeProps): HomeProps => {
+  const { userData } = auth;
 
   return {
     ...ownProps,
     userId: userData ? userData.uid : null,
-    recordsData: state.records.data,
-    recordsState: state.records.state,
+    recordsData: records.data,
+    recordsState: records.state,
   };
 };
 

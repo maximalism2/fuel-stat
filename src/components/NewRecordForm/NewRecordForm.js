@@ -9,27 +9,24 @@ import style from "./style.css";
 
 type NewRecrodFormProps = {
   loading: boolean,
-  onSubmit: (fields: NewRecrodFormState) => void
+  onSubmit: (fields: NewRecrodFormState) => void,
 };
 
 type NewRecrodFormState = {
   litresFilled: number,
   refillingDate: string,
   totalCarMileage: number,
-  refillingPrice: number
+  refillingPrice: number,
 };
 
-export default class New extends Component<
-  NewRecrodFormProps,
-  NewRecrodFormState
-> {
+export default class New extends Component<NewRecrodFormProps, NewRecrodFormState> {
   recordsDataRef = null;
 
   state: NewRecrodFormState = {
     litresFilled: 0,
     refillingDate: this.formatDate(new Date()),
     totalCarMileage: 0,
-    refillingPrice: 0
+    refillingPrice: 0,
   };
 
   formatDate(date: Date): string {
@@ -59,7 +56,7 @@ export default class New extends Component<
 
       default:
         this.setState(() => ({
-          [e.target.name]: e.target.value
+          [e.target.name]: e.target.value,
         }));
         break;
     }
@@ -70,12 +67,7 @@ export default class New extends Component<
   }
 
   render() {
-    const {
-      litresFilled,
-      refillingDate,
-      totalCarMileage,
-      refillingPrice
-    } = this.state;
+    const { litresFilled, refillingDate, totalCarMileage, refillingPrice } = this.state;
 
     return (
       <form action="#" onSubmit={this.submit}>
@@ -86,7 +78,6 @@ export default class New extends Component<
           type="tel"
           name="litresFilled"
           id="litresFilled"
-          placeholder="E.G.: 18.4"
           value={litresFilled || ""}
           class={this.getInputClassNames("litresFilled")}
           onKeyDown={this.handleInputChange}
@@ -100,7 +91,6 @@ export default class New extends Component<
           name="refillingDate"
           id="refillingDate"
           value={refillingDate}
-          placeholder={this.formatDate(new Date())}
           class={this.getInputClassNames("refillingDate")}
           onKeyDown={this.handleInputChange}
         />
@@ -113,7 +103,6 @@ export default class New extends Component<
           name="totalCarMileage"
           id="totalCarMileage"
           value={totalCarMileage || ""}
-          placeholder="E.G.: 18732"
           class={this.getInputClassNames("totalCarMileage")}
           onKeyDown={this.handleInputChange}
         />
@@ -126,7 +115,6 @@ export default class New extends Component<
           name="refillingPrice"
           id="refillingPrice"
           value={refillingPrice || ""}
-          placeholder="E.G: 356"
           class={this.getInputClassNames("refillingPrice")}
           onKeyDown={this.handleInputChange}
         />

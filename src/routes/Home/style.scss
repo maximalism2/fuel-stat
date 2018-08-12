@@ -9,9 +9,20 @@
     @include spinner(null, 2em);
     display: block;
     margin: auto;
+
+    &_update {
+      margin-right: 15px;
+      width: 1em;
+      height: 1em;
+    }
   }
 
   &__spinnerWrapper {
     padding-top: 4em;
+
+    &_update {
+      padding-top: 0;
+      margin-bottom: -1em;
+    }
   }
 }

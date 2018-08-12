@@ -15,7 +15,7 @@ const composeStore = () => {
     middlewares.push(logger);
   }
 
-  return createStore(reducers, applyMiddleware(...middlewares));
+  return createStore(reducers, window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__(applyMiddleware(...middlewares)));
 };
 
 const store = composeStore();

@@ -1,0 +1,13 @@
+@import 'settings';
+
+.mainStat {
+  overflow: hidden;
+
+  &__statTable {
+    display: flex;
+  }
+
+  &__statCell {
+    flex: 1;
+  }
+}
