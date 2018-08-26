@@ -35,6 +35,7 @@
   "dependencies": {
     "chart.js": "^2.7.2",
     "classnames": "^2.2.5",
+    "firebase": "^5.4.1",
     "moment": "^2.22.1",
     "preact": "^8.2.7",
     "preact-async-route": "^2.1.1",
