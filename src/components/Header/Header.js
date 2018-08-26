@@ -6,29 +6,9 @@ import UserData from "../UserData/UserData";
 import style from "./style.css";
 
 import type { CurrentUserType } from "../../lib/types/CurrentUser";
-
-type HeaderProps = {
-  loading: boolean,
-  loggedIn: boolean,
-  navOpen: boolean,
-  onNavToggle: () => void,
-  userData?: CurrentUserType
-};
-
-type NavLinkType = {
-  title: string,
-  href: string,
-  dimmed?: boolean
-};
+import { links, type HeaderProps, type NavLinkType } from "./Header.helpers";
 
 export default class Header extends Component<HeaderProps> {
-  links: NavLinkType[] = [
-    { title: "Home", href: "/" },
-    { title: "Add record", href: "/new" },
-    { title: "Settings", href: "/settings" },
-    { title: "Logout", href: "/logout", dimmed: true }
-  ];
-
   getUserDataProps(userData?: CurrentUserType): mixed {
     if (!userData) {
       return {};
@@ -38,35 +18,31 @@ export default class Header extends Component<HeaderProps> {
       id: userData.uid,
       displayName: userData.displayName,
       photoUrl: userData.photoURL,
-      createdAt: userData.createdAt
+      createdAt: userData.createdAt,
     };
   }
 
   renderBurgerButton(navOpen: boolean) {
     const burgerCN = classnames({
       [style.header__burger]: true,
-      [style.header__burger_open]: navOpen
+      [style.header__burger_open]: navOpen,
     });
 
     return <span class={burgerCN} />;
   }
 
-  renderLinks(
-    links: Array<NavLinkType>,
-    navOpen: boolean,
-    toggleNav: () => void
-  ): React$Element<*>[] {
+  renderLinks(links: Array<NavLinkType>, navOpen: boolean, toggleNav: () => void): React$Element<*>[] {
     return links.map((link: NavLinkType, index: number) => (
       <Link
         activeClassName={style.header__navLink_active}
         class={classnames({
           [style.header__navLink]: true,
           [style.header__navLink_dimmed]: link.dimmed === true,
-          [style.header__navLink_navHidden]: navOpen === false
+          [style.header__navLink_navHidden]: navOpen === false,
         })}
         style={{ transitionDelay: `.${index}s` }}
         href={link.href}
-        onClick={toggleNav}
+        onClick={typeof link.clickHandler === "function" ? link.clickHandler : toggleNav}
       >
         {link.title}
       </Link>
@@ -83,16 +59,9 @@ export default class Header extends Component<HeaderProps> {
           <button onClick={onNavToggle} class={style.header__togglerButton}>
             {this.renderBurgerButton(navOpen)}
           </button>
-          <UserData
-            loading={loading}
-            navOpen={navOpen}
-            loggedIn={Boolean(userData)}
-            {...userDataProps}
-          />
+          <UserData loading={loading} navOpen={navOpen} loggedIn={Boolean(userData)} {...userDataProps} />
         </div>
-        <nav class={style.header__nav}>
-          {this.renderLinks(this.links, navOpen, onNavToggle)}
-        </nav>
+        <nav class={style.header__nav}>{this.renderLinks(links, navOpen, onNavToggle)}</nav>
       </header>
     );
   }

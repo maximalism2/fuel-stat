@@ -1,3 +1,4 @@
+// @flow
 import firebase, { auth, database, googleAuthProvider } from "./firebase";
 import type { FirebaseDataResponse } from "./types/common";
 import type { Records } from "./types/Records";
@@ -31,6 +32,8 @@ export const login = (isMobile: boolean) =>
       }
     });
   });
+
+export const logout = () => auth.signOut().then(() => window.location.reload());
 
 export const getSnapshot = () => database.ref().once("value");
 
