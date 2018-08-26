@@ -8,14 +8,15 @@
   border-radius: 4px;
   background: #eee;
   border: 1px solid transparent;
-  border-bottom: 1px solid #2a7c58;
+  border-bottom: 1px solid $brand-one;
 }
 
 .form__input:focus {
   outline: none;
-  border-top: 1px solid #9b8748;
-  border-left: 1px solid #9b8748;
-  border-right: 1px solid #9b8748;
+  background: #fff;
+  border-top: 1px solid $brand-two;
+  border-left: 1px solid $brand-two;
+  border-right: 1px solid $brand-two;
 }
 
 .form__label {
@@ -26,15 +27,15 @@
 
 .form__submit {
   display: block;
-  margin: 20px auto 0;
+  margin: 20px auto;
   font-size: 1.3em;
   padding: 6px 15px 8px;
   border-radius: 25px;
-  background: #2a7c58;
-  background-image: linear-gradient(to top, #2a7c58, #9b8748);
+  background: $brand-one;
+  background-image: linear-gradient(to top, $brand-one, $brand-two);
   font-weight: 700;
   color: #f7f7f7;
-  border: 1px solid #9b8748;
+  border: 1px solid $brand-two;
   outline: none;
 }
 

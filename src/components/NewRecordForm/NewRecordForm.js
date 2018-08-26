@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import moment from "moment";
 
+import DatePicker from "../DatePicker/DatePicker";
 import { getSnapshot, getRecordsRef } from "../../lib/firebase.helpers";
 // import { acceptNumber } from "./New.helpers";
 
@@ -17,6 +18,7 @@ type NewRecrodFormState = {
   refillingDate: string,
   totalCarMileage: number,
   refillingPrice: number,
+  selectedDate: Date,
 };
 
 export default class New extends Component<NewRecrodFormProps, NewRecrodFormState> {
@@ -24,9 +26,9 @@ export default class New extends Component<NewRecrodFormProps, NewRecrodFormStat
 
   state: NewRecrodFormState = {
     litresFilled: 0,
-    refillingDate: this.formatDate(new Date()),
     totalCarMileage: 0,
     refillingPrice: 0,
+    selectedDate: new Date(),
   };
 
   formatDate(date: Date): string {
@@ -40,7 +42,7 @@ export default class New extends Component<NewRecrodFormProps, NewRecrodFormStat
     this.props.onSubmit(this.state);
   };
 
-  handleInputChange = (e: Event) => {
+  handleInputChange = (e: KeyboardEvent) => {
     (e.currentTarget: HTMLInputElement);
     switch (e.currentTarget.name) {
       // case "litresFilled": {
@@ -62,12 +64,16 @@ export default class New extends Component<NewRecrodFormProps, NewRecrodFormStat
     }
   };
 
+  handleDateSelect = (newDate: Date): void => {
+    this.setState(() => ({ selectedDate: newDate }));
+  };
+
   getInputClassNames(inputName: string): string {
     return style.form__input;
   }
 
   render() {
-    const { litresFilled, refillingDate, totalCarMileage, refillingPrice } = this.state;
+    const { litresFilled, totalCarMileage, refillingPrice, selectedDate } = this.state;
 
     return (
       <form action="#" onSubmit={this.submit}>
@@ -90,10 +96,12 @@ export default class New extends Component<NewRecrodFormProps, NewRecrodFormStat
           type="text"
           name="refillingDate"
           id="refillingDate"
-          value={refillingDate}
+          value={this.formatDate(selectedDate)}
           class={this.getInputClassNames("refillingDate")}
           onKeyDown={this.handleInputChange}
         />
+
+        <DatePicker isOpen initialDate={selectedDate} onDateSelect={this.handleDateSelect} />
 
         <label htmlFor="totalCarMileage" class={style.form__label}>
           Total car milage (km)
